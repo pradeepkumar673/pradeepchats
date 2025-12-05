@@ -15,7 +15,7 @@ app.get('/',(req,res)=>{
     res.send("thala API vodu dhu")
 })
 
-app.use("/api/auth_to_pradeep",authRouter);
+app.use("/api/auth",authRouter);
 
 database().then(() => {
     app.listen(port,()=>{

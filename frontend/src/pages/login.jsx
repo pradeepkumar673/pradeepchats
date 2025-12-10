@@ -7,8 +7,28 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
 const login = () => {
-  const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
+  
+    const navigate = useNavigate();
+    let [showPassword, setShowPassword] = useState(false);
+    let [username, setUsername] = useState('');
+    let [email, setEmail] = useState('');
+    let [password, setPassword] = useState('');
+  
+    const handlelogin = async() =>{
+      try{
+        const result = await axios.post(`${serverurl}/api/auth/login`,{
+          
+          email:email,
+          password:password
+        },{
+          withCredentials:true
+        })
+        console.log(result);
+      }
+      catch(err){
+        console.log(`login la error iruku, bcoz ${err.message}`);
+      }
+    }
   return (
     <>
       <div className='min-h-screen w-screen bg-black relative overflow-hidden flex justify-center items-center p-4'>
@@ -30,12 +50,12 @@ const login = () => {
             </h3>
             <form className='flex flex-col gap-6 px-4 py-4'>
              
-              <input type="email" placeholder='Email' className='bg-transparent text-lime-100 rounded-md px-4 py-2 outline-none border border-white/40 focus:outline-none' />
-              <div className='flex flex-row gap-4 items-center rounded-md bg-transparent text-lime-100 outline-none border border-white/40 focus:outline-none relative'> 
-              <input type={showPassword ? "text" : "password"} placeholder='Password' className='bg-transparent text-lime-100 px-4 py-2 outline-none h-full w-full focus:outline-none' />
+              <input type="email" placeholder='Email' className='bg-transparent text-lime-100 rounded-md px-4 py-2 outline-none border border-white/40 focus:outline-none' onChange={(e) => setEmail(e.target.value)} value={email} />
+              <div className='flex flex-row gap-4 items-center rounded-md bg-transparent text-lime-100 outline-none border border-white/40 focus:outline-none relative' > 
+              <input type={showPassword ? "text" : "password"} placeholder='Password' className='bg-transparent text-lime-100 px-4 py-2 outline-none h-full w-full focus:outline-none' onChange={(e) => setPassword(e.target.value)} value={password} />
               <span className='absolute right-4 cursor-pointer text-white/60' onClick={() => setShowPassword(!showPassword)}>{showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}</span>
               </div>
-              <button type='submit' className='bg-black/40 text-lime-100 rounded-md p-4 outline-none border border-white/40 focus:outline-lime-100 w-[35%] self-center'>Sign Up</button>
+              <button type='submit' className='bg-black/40 text-lime-100 rounded-md p-4 outline-none border border-white/40 focus:outline-lime-100 w-[35%] self-center cursor-pointer' onClick={handlelogin}>Log In</button>
             </form>
             <p className='flex justify-center items-center flex-row text-[12px] gap-4 text-md text-lime-100  playwrite-no-123 cursor-pointer'>want to create a new account?
               <br></br>

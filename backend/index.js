@@ -3,13 +3,20 @@ import dotenv from 'dotenv';
 import database from '../backend/configs/db.js';
 import authRouter from '../backend/routes/auth.routes.js';
 import cookieParser from 'cookie-parser';
-
+import cors from 'cors';
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 const port = process.env.PORT || 5000;
+app.use(cors({
+    origin:["http://localhost:5173"],
+    methods:["GET","POST"],
+    credentials:true
+}));
+
+
 
 app.get('/',(req,res)=>{
     res.send("thala API vodu dhu")

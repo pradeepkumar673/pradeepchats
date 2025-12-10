@@ -1,6 +1,5 @@
 
 import User from "../models/user.model.js";
-import user from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import gentoken from "../configs/token.js";
 

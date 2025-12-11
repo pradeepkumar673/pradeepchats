@@ -1,4 +1,6 @@
 import React from 'react'
+import axios from 'axios'
+
 import light from '../assets/light.svg'
 import bg from '../assets/background.jpeg'
 import { useNavigate } from 'react-router-dom';
@@ -20,10 +22,13 @@ const login = () => {
           
           email:email,
           password:password
+          
         },{
           withCredentials:true
         })
         console.log(result);
+        setEmail("")
+        setPassword("")
       }
       catch(err){
         console.log(`login la error iruku, bcoz ${err.message}`);

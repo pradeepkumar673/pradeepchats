@@ -32,6 +32,8 @@ const login = () => {
       }, {
         withCredentials: true
       })
+      dispatch(setUserData(result.data));
+
       console.log("Login success:", result.data);
       setUsername("")
       setPassword("")
@@ -40,8 +42,7 @@ const login = () => {
 
     }
     catch (err) {
-      dispatch(setUserData(result.data));
-
+      
       console.log(`login la error iruku, bcoz ${err.response?.data || err.message}`);
       setLoading(false);
       setError(err.response?.data?.message || err.message);

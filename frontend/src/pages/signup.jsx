@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../redux/userSlice';
+import { useSelector } from 'react-redux';  
 
 const signup = () => {
   const navigate = useNavigate();

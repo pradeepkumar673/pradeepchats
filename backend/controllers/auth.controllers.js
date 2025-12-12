@@ -1,4 +1,4 @@
-import User from "../models/user.model.js";  // ✅ Note: lowercase 'u' in user.model.js
+import User from "../models/user.model.js";  
 import bcrypt from "bcrypt";
 import gentoken from "../configs/token.js";
 
@@ -6,12 +6,9 @@ export const Signup = async (req, res) => {
     try {
         const {Username, email, phone, password} = req.body;
         
-        // Validation
         if(!Username || !email || !phone || !password){
             return res.status(400).json({message:"All fields are required"});
         }
-        
-        // ✅ Use 'User' (the imported model) to check for existing user
         const check_user = await User.findOne({$or:[{Username},{email},{phone}]});
         if(check_user){
             return res.status(400).json({message:"Username,email or phone already exists"});
@@ -20,11 +17,8 @@ export const Signup = async (req, res) => {
         if(password.length<6){
             return res.status(400).json({message:"Password must be at least 6 characters"});
         }
-
-        // Hash password
         const hashed_passcode = await bcrypt.hash(password,10);
         
-        // ✅ Create new user - use different variable name
         const newUser = await User.create({
             name: Username,
             Username,
@@ -34,18 +28,16 @@ export const Signup = async (req, res) => {
             secret_password: password
         });
         
-        // Generate token
         const token = await gentoken(newUser._id);
         
-        // Set cookie
+        
         res.cookie("token", token, {
             httpOnly: true,
             maxAge: 30*24*60*60*1000,
-            sameSite: "None",
+            sameSite: "Strict",
             secure: false,
         });
 
-        // Send response
         res.status(201).json({
             message: "User created aithanda",
             token,
@@ -70,7 +62,6 @@ export const login = async (req,res)=>{
             return res.status(400).json({message:"All fields are required"});
         }
         
-        // ✅ Use 'User' model
         const user = await User.findOne({Username});
         if(!user){
             return res.status(400).json({message:"User kedaikala"});
@@ -85,7 +76,7 @@ export const login = async (req,res)=>{
         res.cookie("token", token, {
             httpOnly: true,
             maxAge: 30*24*60*60*1000,
-            sameSite: "None",
+            sameSite: "Strict",
             secure: false,
         });
         

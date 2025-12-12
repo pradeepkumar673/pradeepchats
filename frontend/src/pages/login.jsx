@@ -6,6 +6,9 @@ import bg from '../assets/background.jpeg'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { useDispatch } from 'react-redux';
+import { setUserData } from '../redux/userSlice';
+import { useSelector } from 'react-redux';
 
 
 const login = () => {
@@ -15,6 +18,9 @@ const login = () => {
   let [password, setPassword] = useState('');
   let[loading, setLoading] = useState(false);
   let [error, setError] = useState('');
+  let dispatch = useDispatch();
+  let {userData} = useSelector(state => state.user);
+
 
   const handlelogin = async (e) => {
     e.preventDefault();  
@@ -34,6 +40,8 @@ const login = () => {
 
     }
     catch (err) {
+      dispatch(setUserData(result.data));
+
       console.log(`login la error iruku, bcoz ${err.response?.data || err.message}`);
       setLoading(false);
       setError(err.response?.data?.message || err.message);

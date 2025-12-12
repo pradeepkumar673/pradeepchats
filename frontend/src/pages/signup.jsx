@@ -6,7 +6,8 @@ import bg from '../assets/background.jpeg'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
-
+import { useDispatch } from 'react-redux';
+import { setUserData } from '../redux/userSlice';
 
 const signup = () => {
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ const signup = () => {
   let [phone, setPhone] = useState('');  
   let [loading, setLoading] = useState(false);
   let [error, setError] = useState("");
+  let dispatch = useDispatch();
+  let {userData} = useSelector(state => state.user); 
 
   const handleSignup = async (e) => {
     e.preventDefault(); 
@@ -31,6 +34,8 @@ const signup = () => {
       }, {
         withCredentials: true
       })
+      dispatch(setUserData(result.data));
+      
       console.log("Signup success:", result.data);
       setUsername("")
       setEmail("")

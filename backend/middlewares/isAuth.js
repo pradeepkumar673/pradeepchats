@@ -6,7 +6,7 @@ const isAuth = async (req, res, next) =>{
             return res.status(400).json({message:"token kedaikala pa"});
         }
         let verifyToken = await jwt.verify(token, process.env.JWT_SECRET);
-        req.userID = verifyToken.userID;
+        req.userID = verifyToken.user_id;
         next();
     }
     catch (err) {

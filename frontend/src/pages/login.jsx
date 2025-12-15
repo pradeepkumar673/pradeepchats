@@ -32,9 +32,10 @@ const login = () => {
       }, {
         withCredentials: true
       })
-      dispatch(setUserData(result.data));
+      dispatch(setUserData(result.data.user));
 
       console.log("Login success:", result.data);
+      navigate("/profile");
       setUsername("")
       setPassword("")
       setError("");

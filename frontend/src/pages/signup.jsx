@@ -35,9 +35,10 @@ const signup = () => {
       }, {
         withCredentials: true
       })
-      dispatch(setUserData(result.data));
+      dispatch(setUserData(result.data.user));
       
       console.log("Signup success:", result.data);
+      navigate("/profile");
       setUsername("")
       setEmail("")
       setPassword("")

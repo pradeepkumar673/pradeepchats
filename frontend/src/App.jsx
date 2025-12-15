@@ -7,10 +7,18 @@ import Home from './pages/Home'
 import Profile from './pages/Profile'
 import { useSelector } from 'react-redux'
 
-
 const App = () => {
   useGetCurrentUser();
-  const { userData } = useSelector((state) => state.user);
+  
+  // ✅ Fix 1: Access the entire state first
+  const userState = useSelector((state) => state.user);
+  
+  // ✅ Fix 2: Safely access userData with null check
+  const userData = userState?.userData || null;
+  
+  // ✅ Debug: Check what's in Redux
+  console.log("Redux user state:", userState);
+  console.log("User data:", userData);
   
   return (
     <Routes>
@@ -31,7 +39,7 @@ const App = () => {
       
       <Route 
         path="/profile" 
-        element={userData ? <Profile /> : <Navigate to="/signup" replace />} 
+        element={userData ? <Profile /> : <Navigate to="/login" replace />}
       />
     </Routes>
   )
